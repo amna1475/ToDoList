@@ -21,7 +21,7 @@
     <input type="password" id="password" placeholder="Password"
       class="w-full px-4 py-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
     <button id="login" onclick="login()"
-      class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Login</button>
+      class="w-full bg-black text-white py-2 rounded hover:bg-gray-700 transition">Login</button>
     <p class="mt-4 text-sm text-gray-600">
       Don't have an account? 
       <a href="#sign" onclick="toggleSignup()" class="text-blue-500 hover:underline">Signup</a>
@@ -53,54 +53,52 @@
     ];
 
     function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      const users = JSON.parse(localStorage.getItem("usersDatabase")) || usersDatabase;
-      const user = users.find(user => user.email === email && user.password === password);
-
-      if (user) {
-        console.log("Login successful for", email); 
-          window.location.href = "index.html";
-      } else {
-        alert("Login failed: Incorrect email or password");
-      }
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+    if (!email || !password) {
+        alert("Please enter both email and password!");
+        return;
     }
+  let users = JSON.parse(localStorage.getItem("usersDatabase")) || [];
+  let user = users.find(user => user.email === email && user.password === password);
 
-    function signup() {
-  const email = document.getElementById("signup-email").value.trim();
-  const password = document.getElementById("signup-password").value;
-  const confirmPassword = document.getElementById("confirm-password").value;
-
-  if (!email || !password || !confirmPassword) {
-    alert("All fields are required!");
+  if (!user) {
+    alert("Invalid email or password!");
     return;
   }
+
+  // Store current logged-in user's email
+  localStorage.setItem("currentUser", email);
+  window.location.href = "index.html"; // Go to main tasks page
+}
+
+
+    function signup() {
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+  const confirmPassword = document.getElementById("confirm-password").value;
 
   if (password !== confirmPassword) {
     alert("Passwords do not match!");
     return;
   }
 
-  const users = JSON.parse(localStorage.getItem("usersDatabase")) || [];
+  let users = JSON.parse(localStorage.getItem("usersDatabase")) || [];
 
   // Check if email already exists
-  const emailExists = users.some(user => user.email.toLowerCase() === email.toLowerCase());
-  if (emailExists) {
-    alert("An account with this email already exists! Please log in.");
+  if (users.some(user => user.email === email)) {
+    alert("Email already registered!");
     return;
   }
 
-  // Save new user
-  users.push({ email, password });
+  // Add new user with empty tasks list
+  users.push({ email, password, tasks: [] });
   localStorage.setItem("usersDatabase", JSON.stringify(users));
 
   console.log("Signup successful for", email);
-  alert("Signup successful! Redirecting to login page...");
-  
+
   window.location.href = "login.html";
 }
-
 
     function toggleSignup() {
       document.getElementById('login-container').classList.add('hidden');
