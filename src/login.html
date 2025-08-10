@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>To-Dos-List - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+    
+  <!-- Header -->
+  <header class="text-center mb-8">
+    <h2 class="text-4xl font-bold text-black">To-Do-List</h2>
+    <p class="text-gray-600">Manage your tasks efficiently</p>
+  </header>
+
+  <!-- Login Form -->
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md" id="login-container">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Login</h2>
+    <input type="email" id="email" placeholder="Email"
+      class="w-full px-4 py-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <input type="password" id="password" placeholder="Password"
+      class="w-full px-4 py-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <button id="login" onclick="login()"
+      class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Login</button>
+    <p class="mt-4 text-sm text-gray-600">
+      Don't have an account? 
+      <a href="#sign" onclick="toggleSignup()" class="text-blue-500 hover:underline">Signup</a>
+    </p>
+  </div>
+
+  <!-- Signup Form -->
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md hidden" id="signup-container">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Signup</h2>
+    <input type="email" id="signup-email" placeholder="Email"
+      class="w-full px-4 py-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <input type="password" id="signup-password" placeholder="Password"
+      class="w-full px-4 py-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <input type="password" id="confirm-password" placeholder="Confirm Password"
+      class="w-full px-4 py-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+    <button onclick="signup()"
+      class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">Signup</button>
+    <p class="mt-4 text-sm text-gray-600">
+      Already have an account? 
+      <a href="#login" onclick="toggleLogin()" class="text-blue-500 hover:underline">Login</a>
+    </p>
+  </div>
+
+  <script>
+    let usersDatabase = [
+      { email: "admin@collabsphere.com", password: "password123" },
+      { email: "user@collabsphere.com", password: "password123" }
+    ];
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const users = JSON.parse(localStorage.getItem("usersDatabase")) || usersDatabase;
+      const user = users.find(user => user.email === email && user.password === password);
+
+      if (user) {
+        console.log("Login successful for", email); 
+          window.location.href = "index.html";
+      } else {
+        alert("Login failed: Incorrect email or password");
+      }
+    }
+
+    function signup() {
+  const email = document.getElementById("signup-email").value.trim();
+  const password = document.getElementById("signup-password").value;
+  const confirmPassword = document.getElementById("confirm-password").value;
+
+  if (!email || !password || !confirmPassword) {
+    alert("All fields are required!");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("usersDatabase")) || [];
+
+  // Check if email already exists
+  const emailExists = users.some(user => user.email.toLowerCase() === email.toLowerCase());
+  if (emailExists) {
+    alert("An account with this email already exists! Please log in.");
+    return;
+  }
+
+  // Save new user
+  users.push({ email, password });
+  localStorage.setItem("usersDatabase", JSON.stringify(users));
+
+  console.log("Signup successful for", email);
+  alert("Signup successful! Redirecting to login page...");
+  
+  window.location.href = "login.html";
+}
+
+
+    function toggleSignup() {
+      document.getElementById('login-container').classList.add('hidden');
+      document.getElementById('signup-container').classList.remove('hidden');
+    }
+
+    function toggleLogin() {
+      document.getElementById('login-container').classList.remove('hidden');
+      document.getElementById('signup-container').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

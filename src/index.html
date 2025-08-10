@@ -5,117 +5,195 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Dos-List</title>
     <link rel="stylesheet" href="./output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <!-- header Section -->
-    <header class="flex flex-wrap items-center justify-between bg-black sticky text-white px-6 py-4">
+<header class="flex flex-wrap items-center justify-between sticky bg-black text-white px-6 py-4 reveal-left">
   <!-- Left: Logo and Subtitle -->
   <div class="flex flex-col">
-    <h1 class="text-2xl font-bold">To-Do-List</h1>
+    <h1 class="text-3xl font-bold">To-Do-List</h1>
     <p class="text-sm text-gray-300">Manage your tasks efficiently</p>
   </div>
 
   <!-- Center: Search Field -->
   <div class="w-full md:w-1/3 rounded-md mt-4 md:mt-0 bg-white">
-    <input
-      type="text"
-      placeholder="Search tasks..."
-      class="w-full px-4 py-2 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
-    />
+    <input type="text" placeholder="Search tasks..." class="w-full px-4 py-2 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 reveal"/>
   </div>
-
   <!-- Right: Login and Sign Up -->
   <div class="flex space-x-2 mt-4 md:mt-0">
-    <a href="#login" class="bg-white text-black p-1 font-bold">Login</a>
-    <a href="#signUp" class="bg-green-400 text-black p-1 font-bold">Sign Up</a>
+    <a href="login.html" class="bg-white text-black p-1 font-bold">Login</a>
+    <a href="login.html" class="bg-green-400 text-black p-1 font-bold">Sign Up</a>
   </div>
 
 </header>
 <main class="flex flex-row justify-between items-center min-h-screen bg-[url('heros.jpg')] bg-cover bg-no-repeat bg-fixed px-10">
     <div class="container mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-
       <!-- Greeting Section -->
       <div class="left">
-        <h2 class="text-5xl text-white font-bold mb-4">Welcome To Your To-Do List</h2>
-        <p class="text-lg text-white mb-6">Organize your tasks and boost your productivity.</p>
+        <h2 class="text-5xl text-white font-bold mb-4 reveal-left">Welcome To Your To-Do List</h2>
+        <p class="text-lg text-white mb-6 reveal-left">Organize your tasks and boost your productivity.</p>
       </div>
 
       <!-- Task Section -->
-      <div class="right w-full bg-white bg-opacity-90 text-black p-6 rounded-xl shadow-lg">
-        <h3 class="text-2xl font-semibold mb-4">Add a New Task</h3>
-        <div class="flex mb-4">
-          <input 
-            type="text" 
-            id="taskInput" 
-            class="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none" 
-            placeholder="Enter task..." 
-            onkeydown="if(event.key==='Enter'){ addTask(); }"
-          >
-           <input type="date" id="deadlineInput" class="p-2 border rounded" />
-          <button onclick="addTask()" class="bg-green-600 text-white px-4 rounded-r-md hover:bg-green-700 transition duration-300">Add</button>
-        </div>
-        <ul id="taskList" class="space-y-2"></ul>
-      </div>
-
+<div class="max-w-3xl mx-auto mt-8 p-6 bg-white shadow rounded-lg reveal">
+  <h2 class="text-xl font-bold mb-4">Add New Task</h2>
+  <form id="taskForm" class="grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="event.preventDefault(); addTask();">
+    <input type="text" placeholder="Enter your task..." class="col-span-1 md:col-span-2 border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" id="taskInput" required/>
+    <input type="date" class="border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" id="deadlineInput" required/>
+    <button type="submit" class="col-span-1 md:col-span-3 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Add Task with Deadline</button>
+  </form>
+  <!-- 📝 Task List Display -->
+  <div class="mt-6">
+    <h3 class="text-lg font-semibold mb-2">Your Tasks</h3>
+    <ul id="taskList" class="space-y-2"></ul>
+  </div>
+</div>
     </div>
   </main>
+  <footer>
+    <div class="bg-black sticky text-white text-center py-4 reveal-left">
+      <p>&copy; 2025 To-Do List. All rights reserved.</p>
+      <p>Made by Amna Bibi</p>
+    </div>
+  </footer>
 
   <!-- JavaScript -->
   <script>
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  let tasks = [];
 
-    function saveTasks() {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-
-    function renderTasks() {
-      const taskList = document.getElementById("taskList");
-      taskList.innerHTML = "";
-      tasks.forEach((task, index) => {
-        const li = document.createElement("li");
-        li.className = "flex justify-between items-center bg-gray-100 p-3 rounded-md hover:bg-gray-200 transition";
-
-        li.innerHTML = `
-          <span class="flex-1 break-words pr-4">${task}</span>
-          <div class="flex space-x-3 text-lg">
-            <button onclick="editTask(${index})" class="text-blue-600 hover:text-blue-800 transition"><i class="fas fa-edit"></i></button>
-            <button onclick="deleteTask(${index})" class="text-red-600 hover:text-red-800 transition"><i class="fas fa-trash-alt"></i></button>
-          </div>
-        `;
-        taskList.appendChild(li);
-      });
-    }
-
-    function addTask() {
-      const taskInput = document.getElementById("taskInput");
-      const task = taskInput.value.trim();
-      if (task !== "") {
-        tasks.push(task);
-        saveTasks();
-        renderTasks();
-        taskInput.value = "";
-        taskInput.focus();
-      }
-    }
-
-    function deleteTask(index) {
-      if (confirm("Are you sure you want to delete this task?")) {
-        tasks.splice(index, 1);
-        saveTasks();
-        renderTasks();
-      }
-    }
-
-    function editTask(index) {
-      const newTask = prompt("Edit your task:", tasks[index]);
-      if (newTask !== null && newTask.trim() !== "") {
-        tasks[index] = newTask.trim();
-        saveTasks();
-        renderTasks();
-      }
-    }
-
+  window.onload = () => {
+    const savedTasks = localStorage.getItem("tasks");
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTasks) tasks = JSON.parse(savedTasks);
+    if (savedTheme) document.documentElement.classList.toggle("dark", savedTheme === "dark");
     renderTasks();
-  </script>
+  };
+  function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+  function addTask() {
+  const taskInputEl = document.getElementById("taskInput");
+  const deadlineInputEl = document.getElementById("deadlineInput");
+  const task = taskInputEl.value.trim();
+  const deadline = deadlineInputEl.value;
+
+  if (!task || !deadline) return;
+
+  // Check for an existing task with the same text
+  const existingIndex = tasks.findIndex(t => t.task.toLowerCase() === task.toLowerCase());
+  if (existingIndex > -1) {
+    const existing = tasks[existingIndex];
+    if (confirm(
+      `A task named “${existing.task}” already exists with deadline ${existing.deadline}.\n` +
+      `Do you want to edit its deadline instead?`
+    )) {
+      // Prompt for a new deadline
+      const newDeadline = prompt("Enter new deadline (YYYY-MM-DD):", existing.deadline);
+      if (newDeadline) {
+        tasks[existingIndex].deadline = newDeadline.trim();
+        saveTasks();
+        renderTasks();
+      }
+    }
+    return;
+  }
+
+  // If no duplicate, add new task
+  tasks.push({ task, deadline, completed: false });
+  saveTasks();
+  renderTasks();
+  document.getElementById("taskForm").reset();
+  taskInputEl.focus();
+}
+
+  function toggleComplete(index) {
+    tasks[index].completed = !tasks[index].completed;
+    saveTasks();
+    renderTasks();
+  }
+
+  function editTask(index) {
+    const newTask = prompt("Edit task:", tasks[index].task);
+    const newDeadline = prompt("Edit deadline:", tasks[index].deadline);
+    if (newTask && newDeadline) {
+      tasks[index].task = newTask.trim();
+      tasks[index].deadline = newDeadline.trim();
+      saveTasks();
+      renderTasks();
+    }
+  }
+  function deleteTask(index) {
+    if (confirm("Are you sure you want to delete this task?")) {
+      tasks.splice(index, 1);
+      saveTasks();
+      renderTasks();
+    }
+  }
+
+  function getDeadlineColor(deadline) {
+    const today = new Date();
+    const due = new Date(deadline);
+    if (due < today) return "text-red-500";
+    if (due.toDateString() === today.toDateString()) return "text-yellow-500";
+    return "text-green-500";
+  }
+
+  function renderTasks() {
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+
+    // Optional sorting
+    tasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+
+    tasks.forEach((taskObj, index) => {
+      const li = document.createElement("li");
+      li.className = "flex justify-between items-center bg-gray-100 dark:bg-gray-800 p-3 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition";
+
+      const completedClass = taskObj.completed ? "line-through text-gray-400" : "";
+      const deadlineColor = getDeadlineColor(taskObj.deadline);
+
+      li.innerHTML = `
+        <div class="flex-1 cursor-pointer" onclick="toggleComplete(${index})">
+          <p class="font-medium ${completedClass}">${taskObj.task}</p>
+          <p class="text-sm ${deadlineColor}">Deadline: ${taskObj.deadline}</p>
+        </div>
+        <div class="flex space-x-3 text-lg">
+          <button onclick="editTask(${index})" class="text-blue-600 hover:text-blue-800 transition"><i class="fas fa-edit"></i></button>
+          <button onclick="deleteTask(${index})" class="text-red-600 hover:text-red-800 transition"><i class="fas fa-trash-alt"></i></button>
+        </div>
+      `;
+      taskList.appendChild(li);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const fadeUpObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("opacity-100", "translate-y-0");
+          entry.target.classList.remove("opacity-0", "translate-y-10");
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".reveal").forEach(el => {
+      el.classList.add("opacity-0", "translate-y-10", "transition-all", "duration-700");
+      fadeUpObserver.observe(el);
+    });
+    const fadeLeftObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("opacity-100", "translate-x-0");
+          entry.target.classList.remove("opacity-0", "-translate-x-10");
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll(".reveal-left").forEach(el => {
+      el.classList.add("opacity-0", "-translate-x-10", "transition-all", "duration-700");
+      fadeLeftObserver.observe(el);
+    });
+  });
+</script>
 </body>
 </html>
