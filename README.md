@@ -20,7 +20,9 @@ It allows users to add, delete, and manage their daily tasks in an interactive w
 
 - **HTML5** – Structure  
 - **Tailwind CSS** – Styling  
-- **JavaScript (ES6)** – Functionality  
+- **JavaScript (ES6)** – Functionality
+
+---
 
 ## 💻 How to Run Locally
 
@@ -32,9 +34,14 @@ Navigate to the project folder
 cd to-do-list
 Open index.html in your browser.
 
+---
 📸 Contact me:
+
 Email: amna.sparish@gmail.com
 Linkedin: https://www.linkedin.com/in/amna-bibi-5a82a62b3/
+
+---
+
 🌟 Future Improvements
 Theme change options
 
