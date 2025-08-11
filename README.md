@@ -24,6 +24,9 @@ It allows users to add, delete, and manage their daily tasks in an interactive w
 
 ---
 
+Live Demo: 
+https://amna1475.github.io/ToDoList/
+
 ## 💻 How to Run Locally
 
 1. **Clone the repository**
