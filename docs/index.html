@@ -67,6 +67,7 @@
     if (savedTheme) document.documentElement.classList.toggle("dark", savedTheme === "dark");
     renderTasks();
   };
+  
   function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
