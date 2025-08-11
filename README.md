@@ -3,6 +3,9 @@
 A simple and responsive **To-Do List** web application built using **HTML, Tailwind CSS, and JavaScript**.  
 It allows users to add, delete, and manage their daily tasks in an interactive way.
 
+Live Demo: 
+https://amna1475.github.io/ToDoList/
+
 ---
 
 ## 🚀 Features
@@ -23,9 +26,6 @@ It allows users to add, delete, and manage their daily tasks in an interactive w
 - **JavaScript (ES6)** – Functionality
 
 ---
-
-Live Demo: 
-https://amna1475.github.io/ToDoList/
 
 ## 💻 How to Run Locally
 
