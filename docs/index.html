@@ -44,7 +44,7 @@
   </form>
   <!-- 📝 Task List Display -->
   <div class="mt-6">
-    <h3 class="text-lg font-semibold mb-2">Your Tasks</h3>
+    <h3 class="text-lg font-semibold mb-2">Task Board</h3>
     <ul id="taskList" class="space-y-2"></ul>
   </div>
 </div>
@@ -67,7 +67,7 @@
     if (savedTheme) document.documentElement.classList.toggle("dark", savedTheme === "dark");
     renderTasks();
   };
-  
+
   function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
